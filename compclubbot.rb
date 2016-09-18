@@ -1,15 +1,15 @@
-require './secrets.rb'
+require 'yaml'
 require 'telegram/bot'
 require 'nokogiri'
 require 'open-uri'
 
+token = YAML::load(IO.read('./secrets.yml'))['telegram_bot_token']
 welcomeMessage = "Welcome to Computing Club Bot.\n\nUse /getblast to get the latest email blast message."
 errorMessage = "Error retrieving email blast. Please try again later."
 unknownCmdMessage = "Unknown command. Please try again."
 
 Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
     bot.listen do |message|
-        bot.logger.info message.text
         messageSplit = message.text.split
         cmd = messageSplit[0]
 
